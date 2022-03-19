@@ -1,0 +1,41 @@
+<%- include('./partials/header') %> 
+<link rel="stylesheet" href="./css/registration.css">
+<!-- <script src="./js/register.js"></script> -->
+<title>Registration</title>
+
+<body>
+<%- include('./partials/navbar') %> 
+<div class="login-container">
+    <form action="/user-registration" class="form" method="POST">
+        <div class="row">
+            <div class="form-header">Registration</div>
+            <div class="col-md-12 mt-2">
+                <% if (messages.error) { %>
+                    <label for="username" class="form-label" style="color: red;"><%= messages.error %> </label>
+                <% } else {%>
+                    <label for="username" class="form-label">Username</label>
+                <% } %>
+                <input required name="username" id="username" type="text" class="form-control" placeholder="Username">
+            </div>
+            <div class="col-md-12 mt-4">
+                <label for="password" class="form-label">Password</label>
+                <input required name="password" id="password" type="password" class="form-control" placeholder="Password">
+            </div>
+            <div class="col-md-12 mt-4">
+                <label for="repassword" class="form-label">Retype Password</label>
+                <input required name="repassword" id="repassword" type="password" class="form-control" placeholder="Password">
+            </div>
+            <button class="btn btn-dark mt-4 but">Register</button>
+            
+        </div>
+        <hr class="mt-4">
+        <div>
+            <p class="form-text text-center">Already have an account?
+                <a href="/user-login">Login</a>
+            </p>
+        </div>
+    </form>
+</div>
+<script src="./js/register.js"></script>
+</body>
+</html>

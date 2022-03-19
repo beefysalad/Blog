@@ -1,0 +1,45 @@
+body{
+    background-image: url('../images/bg.jpg');
+    font-family: montserrat, arial, verdana;
+}
+.navbar{
+    background-color: transparent;
+    /* border: 1px black solid; */
+    box-shadow: 0 1px 10px rgb(49, 41, 41);
+}
+.navbar a{
+    color: whitesmoke;
+    font-weight: bold;
+    transition: 0.2s;
+}
+.navbar a:hover{
+    color: wheat;
+}
+.login-container{
+    width: 500px;
+    height: 430px;
+    background-color: whitesmoke;
+    opacity: 0.8;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    margin-top: 23vh;
+    box-shadow: 0 0 25px black;
+}
+.form-header{
+    text-align: center;
+    font-size: 25px;
+}
+.form{
+    padding: 60px;
+}
+.form a{
+    text-decoration: none;
+}
+.but{
+    transition: 0.2s;
+}
+.but:hover, .but:focus{
+    transform: translateY(-0.25em);
+}

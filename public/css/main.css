@@ -1,0 +1,97 @@
+.navbar{
+    font-family: montserrat, arial, verdana;
+    font-size: 20px;
+    background-color: whitesmoke;
+    /* background-image: url('../images/dashboard.jpg'); */
+}
+
+body{
+    font-family: montserrat, arial, verdana;
+}
+#image-header{
+    border-radius: 10px;
+    width: 600px;
+}
+.category-text{
+    color: rgb(170,88,28);
+    font-family: montserrat, arial, verdana;
+}
+.navbar a {
+    color: rgb(105, 104, 104);
+    text-transform: uppercase;
+}
+.navbar a:hover{
+    color: black;
+}
+@media (max-width: 991px){
+    .navbar-brand{
+        width: auto;
+        text-align: center;
+    }
+}
+.navbar-toggler{
+    background-color: red;
+}
+#dash{
+    height: 550px;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.card-content{
+    width: 100%;
+    height: 900px;
+    /* background-color: blue; */
+    padding: 20px;
+}
+
+.blog-description{
+    max-width:700px;
+    -webkit-line-clamp: 6;
+   -webkit-box-orient: vertical;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    text-align: justify;
+    text-justify: inter-word;
+    font-family: montserrat, arial, verdana;
+  }
+  .rows{
+      display: flex;
+      flex-direction: row;
+  }
+  .side-content{
+      background-color: whitesmoke;
+      padding: 35px;
+  }
+  .about{
+      color: #696868;
+      font-weight: bold;
+  }
+  #about-image{
+      border-radius: 10px;
+  }
+  .category-title{
+    font-family: montserrat, arial, verdana;
+  }
+  @media (max-width:754px) {
+      .side-content{
+          display: none;
+      }
+  }
+  .foot { 
+    height: 40px; 
+    /* position: fixed;  */
+    bottom:0%;
+    width:100%; 
+    background-color: whitesmoke; 
+    opacity: 1;
+}
+.circle{
+    width: 50px;
+    height: 50px;
+    
+}
+.circle-2{
+    border-radius: 50%;
+}
