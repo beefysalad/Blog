@@ -14,20 +14,27 @@
                     <div class="picture-container">
                         <img src="<%=user.imgUrl%>" alt="" class="mt-5 imagez" onclick="imageClick()">
                         <input type="file" name="img" id="img" style="display: none;"  class="form-control" accept="image/png, image/jpeg, image/gif,image/jpg">
-                        <p class="form-text text-center clik" onclick="imageClick()">Add Picture</p>
+                        <!-- <p class="form-text text-center clik" onclick="imageClick()">Add Picture</p> -->
                     </div>
                 </div>
                  <div class="col-md-8 mt-5">
                         <h2 class="display-2 text-center mt-3">Welcome <%=user.username%> </h2>
-                        <textarea name="about" id="about" cols="30" class="form-control" rows="10" placeholder="About me..." maxlength="500"><%= user.about %> </textarea>
-                        
+
+                        <!-- <textarea name="about" id="about" cols="30" class="form-control" rows="10" placeholder="About me..." maxlength="500"><%= user.about %> </textarea> -->
+                        <% if (user.about==='') { %>
+                            <textarea name="about" id="about" cols="30" class="form-control" rows="10" placeholder="About me..." maxlength="500"></textarea>
+                        <% } else {%>
+                            <textarea name="about" id="about" cols="30" class="form-control" rows="10" placeholder="About me..." maxlength="500"><%= user.about %> </textarea>
+                        <% } %>
                 </div>
             </div>
-            <button class="btn btn-success btn-update">Update Profile</button>
+            <button class="add-content">
+                <i class="bi bi-check icon" style="color: white;"></i>
+            </button>
         </form>
     </div>
-    <hr class="mt-5">
-    <div class="text-center texts">Posts from <%= user.username %> </div>
+    <!-- <hr class="mt-5">
+    <div class="text-center texts">Posts from <%= user.username %> </div> -->
     <script>
         if(window.performance.navigation.type===0){
             window.location.reload();

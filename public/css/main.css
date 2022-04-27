@@ -11,6 +11,7 @@ body{
 #image-header{
     border-radius: 10px;
     width: 600px;
+    height: 300px;
 }
 .category-text{
     color: rgb(170,88,28);
@@ -46,16 +47,24 @@ body{
 }
 
 .blog-description{
-    max-width:700px;
-    -webkit-line-clamp: 6;
+    /* max-width:550px;
    -webkit-box-orient: vertical;
-    overflow:hidden;
-    text-overflow: ellipsis;
+   -webkit-line-clamp: 4; */
+    /* overflow:hidden; */
+    /* text-overflow: ellipsis;
     display: -webkit-box;
     text-align: justify;
-    text-justify: inter-word;
-    font-family: montserrat, arial, verdana;
+    font-family: montserrat, arial, verdana; */
   }
+  .blog-description{
+    width: inherit;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    text-align: justify;
+    font-family: montserrat, arial, verdana;
+}
   .rows{
       display: flex;
       flex-direction: row;
@@ -94,4 +103,47 @@ body{
 }
 .circle-2{
     border-radius: 50%;
+}
+.add-content{
+    
+    width: 80px;
+    height: 80px;
+    background-color:coral;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: row;
+    transition: 0.2s;
+    border: none;
+    position: fixed;
+    bottom: 35px;
+    right: 25px;
+    
+}
+.add-content:hover{
+    background-color: rgb(255, 179, 152);
+}
+.icon{
+    margin: 0 auto;
+    font-size: 55px;
+    cursor: pointer;
+    align-items: center;
+}
+.center-nav{
+   display: flex;
+   justify-content: center;
+   margin-top: 1500rem;
+   background-color: red;
+}
+.inner-container{
+    /* background-color: red; */
+    height: 500px;
+    /* width: 500px; */
+}
+
+@media (max-width:547px) {
+    .inner-container{
+        width: 350px;
+        height: 500px;
+       
+    }
 }

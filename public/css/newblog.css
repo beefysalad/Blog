@@ -1,0 +1,28 @@
+.bg-picture{
+    width: 100%;
+    display: flex;
+}
+.imagez{
+    height: 300px;
+    width: 80%;
+    border-radius: 15px;
+    cursor: pointer;
+    /* margin: 0 auto; */
+}
+.add{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+}
+#title{
+    border-style: none;
+    font-size: 35px;
+    font-family: montserrat, arial, verdana;
+}
+#text{
+    overflow: auto;        
+    resize: none;
+    font-size: 15px;
+    border-style: none;
+    font-family: montserrat, arial, verdana;
+}

@@ -1,0 +1,43 @@
+    <%- include('./partials/header') %> 
+    <title>New Blog</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.map"></script>
+    <link rel="stylesheet" href="./css/newblog.css">
+</head>
+<body>
+    <%- include('./partials/navbarlogin') %> 
+
+    <div class="container">
+        <form action="/new-blog" enctype="multipart/form-data" method="POST">
+            <div class="row mt-5">
+                <div class="bg-picture">
+                    <img src="./images/dashboard.jpg" alt="" class="img-fluid imagez" onclick="imageClick()">
+                    <input type="file" name="img" id="img" style="display: none;"  class="form-control" accept="image/png, image/jpeg, image/gif,image/jpg">
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <!-- <div class="col-sm">
+                            <div class="add">
+                                <i class="bi bi-plus-circle" style="font-size: 55px; color: grey; cursor: pointer;" onclick="imageClick()"></i>
+                            </div>
+                        </div> -->
+                        <div class="col-md-9 mt-3 add">
+                            <i class="bi bi-plus-circle" style="font-size: 55px; color: grey; cursor: pointer; margin-right: 15px;" onclick="imageClick()"></i>
+                            <input type="text" name="title" id="title" class="form-control" placeholder="Title" required="true" maxlength="25"> 
+                        </div>
+                        <div class="col-md-10 mt-2">
+                            <textarea class="form-control" name="text" id="text" cols="30" rows="10" maxlength="1000" placeholder="Tell your story..."></textarea>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                
+            </div>
+            <button class="btn btn-success mt-5">Publish</button>
+        </form>
+    </div>
+    <script src="./js/profile.js"></script>
+</body>
+</html>

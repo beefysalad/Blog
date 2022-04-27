@@ -13,8 +13,10 @@ const dotenv = require('dotenv')
 const multer = require('multer')
 const cloudinary = require('cloudinary').v2
 const {CloudinaryStorage} = require('multer-storage-cloudinary')
-
-
+const Post = require('./model/post')
+const { get } = require('express/lib/response')
+const mongoosePaginate = require('mongoose-paginate-v2')
+const moment = require('moment')
 
 console.clear()
 app.use(session({
@@ -46,7 +48,7 @@ const upload = multer({
     storage: storage,
    
 })
-mongoose.connect("mongodb+srv://beefysalad:topibakat@cluster0.bgpas.mongodb.net/BlogApp?retryWrites=true&w=majority", {
+mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true, 
     useUnifiedTopology: true,
     
@@ -92,8 +94,64 @@ passport.deserializeUser((id,done)=>{
         }
     })
 })
-app.get('/',isLoggedOut,(req,res)=>{
-    res.render('main')
+app.get('/',isLoggedOut,paginatedResults(Post),getCurrentPage(),async (req,res)=>{
+    const data = res.paginatedResults
+    const pageData = await Post.find({})
+    let currentPage = res.getCurrentPage
+    let rem
+
+    
+    if(pageData%4!=0){
+        rem=1
+    }else{
+        rem =0
+    }
+    const numpage = (Math.floor(pageData.length / 4)) + rem
+    res.render('main',{data,numpage,currentPage})
+})
+app.get('/user-dashboard',isLoggedIn,paginatedResults(Post),getCurrentPage(),async (req,res)=>{
+    const user = req.user
+    const dataObject = res.paginatedResults
+    const data = dataObject.results
+    
+    const pageData = await Post.find({})
+    let currentPage = res.getCurrentPage
+    let rem
+    if(pageData.length%4!=0){
+        rem=1
+    }else{
+        rem =0
+    }
+    // const options = {
+    //     page: currentPage,
+    //     limit: 4,
+    //     sort:'desc'
+
+    // }
+    
+    const numpage = (Math.floor(pageData.length / 4)) + rem
+    // Post.paginate({},options,async(err,results)=>{
+    //     if(err) return err
+    //     console.log(results.totalPages)
+    //     console.log("WITHOUT REVERSE")
+    //     console.log(results.docs.reverse())
+    //     const doc = results.docs.reverse()
+    //     console.log('with reverse')
+    //     console.log(doc)
+    //     console.log(results.hasNextPage)
+    //     console.log(results.hasPrevPage)
+    //     console.log(`the next page is : ${results.nextPage}`)
+    //     console.log(`the previous page is : ${results.prevPage}`)
+    //     console.log(results.page)
+    //     console.log(`this is the total pages: ${results.totalPages}`)
+    //     shit = await results.docs
+        
+    // }).then(()=>{
+       
+    // })
+    res.render('dashboard',{user,numpage,currentPage,data,dataObject})
+ 
+   
 })
 app.get('/user-login',isLoggedOut,(req,res)=>{
     res.render('login')
@@ -129,15 +187,33 @@ app.post('/user-login',passport.authenticate('user',{
     failureRedirect:'/user-login',
     failureFlash:true
 }))
-app.get('/user-dashboard',isLoggedIn,(req,res)=>{
-    const user = req.user
-    res.render('dashboard',{user})
-})
+
 app.get('/user-profile',isLoggedIn,(req,res)=>{
     const user = req.user
     res.render('profile',{user})
 })
-
+app.post('/new-blog',upload.single('img'),async(req,res)=>{
+    const user =req.user
+    let imgLink
+    // console.log(user)
+    if(req.file){
+        imgLink = req.file.path
+    }else if(!req.file){
+        imgLink = 'https://res.cloudinary.com/dhqqwdevm/image/upload/v1648801260/DEV/cjb470crbldpvu5wz9cv.jpg'
+    }
+    const date = new Date()
+    const newPost = new Post({
+        title: req.body.title,
+        bgImg: imgLink,
+        text: req.body.text,
+        author: user.username,
+        authorId: user._id,
+        date: moment(date).format('MM/DD/YYYY'),
+        time: moment(date).format('LT')
+    })
+    await newPost.save()
+    res.redirect('/user-dashboard')
+})
 app.post('/update-user-profile',upload.single('img'),async(req,res)=>{
     const user = req.user
     if(req.file){
@@ -152,7 +228,11 @@ app.post('/update-user-profile',upload.single('img'),async(req,res)=>{
     res.redirect('/user-profile')
 })
 
+app.get('/new-blog',isLoggedIn,(req,res)=>{
+    const user = req.user
+    res.render('newblog',{user})
 
+})
 
 app.get('/logout',(req,res)=>{
     req.logOut()
@@ -161,3 +241,62 @@ app.get('/logout',(req,res)=>{
 app.listen(port,()=>{
     console.log(`Listening to port ${port}`)
 })
+app.get('/test',paginatedResults(Post),(req,res)=>{
+    const data = res.paginatedResults
+    console.log(data)
+    res.render('test',{data})
+})
+//APIS
+
+function paginatedResults(model) {
+    return async (req, res, next) => {
+        let page
+        let limit
+      if(!req.query.page){
+        page = 1
+        limit = 4
+      }else{
+        page = parseInt(req.query.page)
+        limit = 4
+      }
+      const startIndex = (page - 1) * limit
+      const endIndex = page * limit
+  
+      const results = {}
+  
+      if (endIndex < await model.countDocuments().exec()) {
+        results.next = {
+          page: page + 1,
+          limit: limit
+        }
+      }
+      
+      if (startIndex > 0) {
+        results.previous = {
+          page: page - 1,
+          limit: limit
+        }
+      }
+      try {
+        results.results = await model.find().limit(limit).skip(startIndex).exec()
+        res.paginatedResults = results
+        next()
+      } catch (e) {
+        res.status(500).json({ message: e.message })
+      }
+    }
+  }
+  function getCurrentPage(){
+    return async (req,res,next)=>{
+
+        let currentPage
+        if(!req.query.page){
+            currentPage = 1
+        }else{
+            currentPage = parseInt(req.query.page)
+        }
+        res.getCurrentPage = currentPage
+        next()
+    }
+    
+}
